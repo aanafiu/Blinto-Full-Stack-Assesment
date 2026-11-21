@@ -1,0 +1,21 @@
+services:
+  api:
+    build: ./backend
+    environment:
+      PORT: 4000
+      DATA_FILE: /data/db.json
+      SEED_ON_START: "true"   # loads the sample MCU data only when the database is empty
+    volumes:
+      - api-data:/data
+    ports:
+      - "4000:4000"
+
+  web:
+    build: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+volumes:
+  api-data:
